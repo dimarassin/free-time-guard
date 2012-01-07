@@ -10,6 +10,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
+import static ch.lambdaj.Lambda.having;
+import static ch.lambdaj.Lambda.on;
+import static ch.lambdaj.Lambda.select;
+
+
 /**
  * Date: 1/7/12
  *
@@ -46,11 +51,11 @@ public class TaskServiceImpl implements TaskService {
 
 	@Override
 	public List<Task> readPrivateTasks() {
-		return null;  //To change body of implemented methods use File | Settings | File Templates.
+		return select(repository.values(), having(!on(Task.class).isShared()));
 	}
 
 	@Override
-	public List<Task> readTasksByDuration(int minutes) {
-		return null;  //To change body of implemented methods use File | Settings | File Templates.
+	public List<Task> readTasksByDuration(long minutes) {
+		return select(repository.values(), having(on(Task.class).getDuration() == minutes));
 	}
 }

@@ -16,5 +16,5 @@ public interface TaskService {
 
 	List<Task> readPrivateTasks();
 
-	List<Task> readTasksByDuration(int minutes);
+	List<Task> readTasksByDuration(long minutes);
 }
