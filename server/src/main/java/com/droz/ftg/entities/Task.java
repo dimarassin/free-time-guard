@@ -4,20 +4,22 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
+import java.util.List;
+
 /**
  * Date: 1/7/12
  *
  * @author Dima Rassin
  */
 @XStreamAlias("task")
-//ziso can commit!!!
-//take2
 public class Task {
 	private Long id;
 	private String name;
 	private String description;
-	private Long duration;
+	private Duration duration;
 	private boolean shared;
+    private List<String> tags;
+    private TaskAction taskAction;
 
 	public Long getId() {
 		return id;
@@ -39,11 +41,11 @@ public class Task {
 		this.description = description;
 	}
 
-	public Long getDuration() {
+	public Duration getDuration() {
 		return duration;
 	}
 
-	public void setDuration(Long duration) {
+	public void setDuration(Duration duration) {
 		this.duration = duration;
 	}
 
@@ -51,26 +53,19 @@ public class Task {
 		return shared;
 	}
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (!(o instanceof Task)) return false;
+    public List<String> getTags() {
+        return tags;
+    }
 
-		Task that = (Task) o;
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
 
-		return new EqualsBuilder()
-				.append(this.name, that.name)
-				.append(this.description, that.description)
-				.append(this.duration, that.duration)
-				.isEquals();
-	}
+    public TaskAction getTaskAction() {
+        return taskAction;
+    }
 
-	@Override
-	public int hashCode() {
-		return new HashCodeBuilder()
-				.append(name)
-				.append(description)
-				.append(duration)
-				.toHashCode();
-	}
+    public void setTaskAction(TaskAction taskAction) {
+        this.taskAction = taskAction;
+    }
 }
