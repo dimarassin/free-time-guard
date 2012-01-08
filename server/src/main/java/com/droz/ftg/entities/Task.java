@@ -11,6 +11,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
  */
 @XStreamAlias("task")
 //ziso can commit!!!
+//take2
 public class Task {
 	private Long id;
 	private String name;
