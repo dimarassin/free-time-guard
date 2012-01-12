@@ -1,5 +1,6 @@
 package com.droz.ftg.services.impl;
 
+import com.droz.ftg.entities.Duration;
 import com.droz.ftg.entities.Task;
 import com.droz.ftg.services.TaskService;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import static ch.lambdaj.Lambda.having;
 import static ch.lambdaj.Lambda.on;
 import static ch.lambdaj.Lambda.select;
+import static org.hamcrest.Matchers.equalTo;
 
 
 /**
@@ -21,7 +23,7 @@ import static ch.lambdaj.Lambda.select;
  * @author Dima Rassin
  */
 @Service
-public class TaskServiceImpl implements TaskService {
+public final class TaskServiceImpl implements TaskService {
 	private Map<Long, Task> repository = new HashMap<>();
 
 	private AtomicLong idSeq = new AtomicLong();
@@ -46,6 +48,21 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
+	public Task updateTask(Task task) {
+		if (task.getId() == null) {
+			createTask(task);
+		} else {
+			repository.put(task.getId(), task);
+		}
+		return task;
+	}
+
+	@Override
+	public void deleteTask(Long taskId) {
+		repository.remove(taskId);
+	}
+
+	@Override
 	public void shareTask(Long taskId) {
 	}
 
@@ -55,7 +72,7 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public List<Task> readTasksByDuration(long minutes) {
-		return select(repository.values(), having(on(Task.class).getDuration() == minutes));
+	public List<Task> readTasksByDuration(Duration duration) {
+		return select(repository.values(), having(on(Task.class).getDuration(), equalTo(duration)));
 	}
 }
